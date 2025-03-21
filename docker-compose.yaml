@@ -1,0 +1,59 @@
+﻿services:
+  mysql:
+    image: mysql:8.0
+    container_name: basket-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: basket_db
+      MYSQL_USER: basket_user
+      MYSQL_PASSWORD: basket_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - basket-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+  
+  api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      network: host
+      # Add build cache
+      cache_from:
+        - basket-api:latest
+    container_name: basket-api
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - UseDatabase=true
+      - ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=basket_db;User=basket_user;Password=basket_password
+    ports:
+      - "8081:8081"
+    networks:
+      - basket-network
+    # Optimize container runtime performance
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+
+networks:
+  basket-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    # Use local driver for faster access
+    driver: local

@@ -1,0 +1,9 @@
+node_modules/
+bin/
+obj/
+Properties/Service Dependencies/
+
+# Rider
+.idea/
+*.sln.iml
+.vscode

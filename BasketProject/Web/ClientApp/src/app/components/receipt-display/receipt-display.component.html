@@ -1,0 +1,61 @@
+<div *ngIf="receipt" class="receipt-container mat-elevation-z2">
+  <mat-card>
+    <mat-card-header>
+      <h3 class="receipt-title">Receipt</h3>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Items Section -->
+      <div class="items-section">
+        <div class="receipt-item mat-elevation-z1" *ngFor="let i of receipt.items">
+          <div class="item-row">
+            <div class="item-details">
+              <span class="item-name">{{ i.name }}</span>
+              <span class="item-quantity">x {{ i.quantity }}</span>
+            </div>
+            <span class="item-price">€{{ i.price.toFixed(2) }}</span>
+          </div>
+          <!-- Subtotal as a new line -->
+          <div class="subtotal-row" *ngIf="i.quantity > 1">
+            <span class="subtotal-label">Subtotal:</span>
+            <span class="subtotal-amount">€{{ (i.price * i.quantity).toFixed(2) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <mat-divider *ngIf="receipt.discounts && receipt.discounts.length > 0"></mat-divider>
+
+      <!-- Discounts Section -->
+      <div *ngIf="receipt.discounts && receipt.discounts.length > 0" class="discounts-section">
+        <h3 class="discounts-title">Discounts</h3>
+        <div class="discount-item mat-elevation-z1" *ngFor="let discount of receipt.discounts">
+          <div class="discount-row">
+            <div class="discount-details">
+              <span class="discount-reason">{{ discount.discountReason }}</span>
+              <span class="discount-item-name">({{ discount.name }})</span>
+            </div>
+            <span class="discount-amount">-€{{ discount.discountAmount.toFixed(2) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- Totals Section -->
+      <div class="totals-section">
+        <div class="total-row total-before-discount">
+          <span>Total before discount:</span>
+          <span>€{{ receipt.totalBeforeDiscount.toFixed(2) }}</span>
+        </div>
+        <div class="total-row total-discount">
+          <span>Total discount:</span>
+          <span>-€{{ receipt.totalDiscount.toFixed(2) }}</span>
+        </div>
+        <div class="total-row final-total">
+          <span>Total:</span>
+          <span>€{{ receipt.finalTotal.toFixed(2) }}</span>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

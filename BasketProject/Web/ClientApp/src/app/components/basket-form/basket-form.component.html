@@ -1,0 +1,102 @@
+<div class="basket-container mat-elevation-z2">
+  <mat-toolbar color="primary">
+    <h1 class="page-title">Select your items</h1>
+  </mat-toolbar>
+
+  <div *ngIf="loadingItems" class="loading-container">
+    <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+    <p>Loading available items...</p>
+  </div>
+
+  <div *ngIf="!loadingItems" class="basket-content">
+    <form [formGroup]="basketForm" (ngSubmit)="submitBasket()">
+      <div class="items-list">
+        <mat-card *ngFor="let item of availableItems; let i = index" class="item-card">
+          <div class="custom-card-header">
+            <h3 class="item-name">{{ item.name }}</h3>
+            <span class="item-price">€{{ item.price.toFixed(2) }}</span>
+          </div>
+
+          <mat-card-content>
+            <div class="quantity-section">
+              <div class="quantity-controls">
+                <button
+                  type="button"
+                  class="remove"
+                  mat-mini-fab
+                  color="primary"
+                  (click)="decrementItemQuantity(item)">
+                  <mat-icon>remove</mat-icon>
+                </button>
+                <input
+                  type="number"
+                  class="quantity-display"
+                  [value]="getItemQuantity(item)"
+                  (input)="updateItemQuantity(item, $event)"/>
+                <button
+                  type="button"
+                  class="add"
+                  mat-mini-fab
+                  color="primary"
+                  (click)="incrementItemQuantity(item)">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+
+              <div class="item-subtotal" *ngIf="getItemQuantity(item) > 0">
+                Subtotal: <strong>€{{ (item.price * getItemQuantity(item)).toFixed(2) }}</strong>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <mat-error *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </mat-error>
+
+      <mat-card *ngIf="getBasketTotal() > 0" class="basket-summary">
+        <mat-card-header>
+          <mat-card-title>Basket Summary</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list class="selected-items">
+            <mat-list-item *ngFor="let item of getSelectedItems()" class="selected-item">
+              <div class="selected-item-row">
+                <span>{{ item.name }} x {{ getItemQuantity(item) }}</span>
+                <span>€{{ (item.price * getItemQuantity(item)).toFixed(2) }}</span>
+              </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item class="basket-total">
+              <div class="basket-total-row">
+                <span>Total:</span>
+                <span>€{{ getBasketTotal().toFixed(2) }}</span>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+
+      <div class="button-container">
+        <button
+          type="submit"
+          mat-raised-button
+          color="accent"
+          [disabled]="getBasketTotal() === 0 || loading">
+          <mat-icon *ngIf="!loading">shopping_cart_checkout</mat-icon>
+          <mat-progress-spinner *ngIf="loading" mode="indeterminate" diameter="20"></mat-progress-spinner>
+          <span *ngIf="loading">Processing...</span>
+          <span *ngIf="!loading">Submit Order</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Receipt Display -->
+  <app-receipt-display
+    *ngIf="receipt"
+    [receipt]="receipt"
+    class="receipt-section">
+  </app-receipt-display>
+</div>
