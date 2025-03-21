@@ -90,16 +90,16 @@ cd basket_app
    ```
    - Option 2: Using local MySQL installation (ensure it's running)
 
-3. Backend setup
-```bash
-dotnet restore
-dotnet build
-```
-
-4. Frontend setup
+3. Frontend setup
 ```bash
 cd BasketProject/Web/ClientApp
 npm install && npm run build
+```
+
+4. Backend setup
+```bash
+dotnet restore
+dotnet build
 ```
 
 5. Start the application
