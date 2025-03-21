@@ -19,9 +19,8 @@ A simple basket application built with C# and Angular as part of a technical ass
 
 This application allows users to:
 - Register and login to their accounts
-- Browse available products
 - Add items to their basket
-- View detailed information about items and pricing
+- View information about items and pricing
 - Submit orders and receive a detailed receipt with costs and applied discounts
 
 The application implements a flexible discount strategy pattern that allows for easy addition of new promotional rules. Currently, the system supports the following discount types:
