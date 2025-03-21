@@ -61,10 +61,16 @@ OR
 The easiest way to get the application running is with Docker:
 
 1. Clone the repository
-```bash
-git clone https://github.com/ruxsilva/basket_app.git
-cd basket_app
-```
+  
+    With HTTPS:
+    ```bash
+    git clone https://github.com/ruxsilva/basket_app.git
+    cd basket_app
+    ```
+    With SSH:
+    ```bash
+    git clone git@github.com:ruxsilva/basket_app.git
+    cd basket_app
 
 2. Start the application using Docker Compose
 ```bash
@@ -78,10 +84,16 @@ docker-compose up -d --build
 If you prefer to run the application without Docker:
 
 1. Clone the repository
-```bash
-git clone https://github.com/ruxsilva/basket_app.git
-cd basket_app
-```
+   
+    With HTTPS:
+    ```bash
+    git clone https://github.com/ruxsilva/basket_app.git
+    cd basket_app
+    ```
+    With SSH:
+    ```bash
+    git clone git@github.com:ruxsilva/basket_app.git
+    cd basket_app
 
 2. Start MySQL
    - Option 1: Using Docker
