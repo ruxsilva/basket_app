@@ -73,9 +73,9 @@ The easiest way to get the application running is with Docker:
     cd basket_app
 
 2. Start the application using Docker Compose
-```bash
-docker-compose up -d --build
-```
+      ```bash
+      docker-compose up -d --build
+      ```
 
 3. Navigate to `http://localhost:8081` in your browser
 
@@ -103,22 +103,22 @@ If you prefer to run the application without Docker:
    - Option 2: Using local MySQL installation (ensure it's running)
 
 3. Frontend setup
-```bash
-cd BasketProject/Web/ClientApp
-npm install && npm run build
-```
+    ```bash
+    cd BasketProject/Web/ClientApp
+    npm install && npm run build
+    ```
 
 4. Backend setup
-```bash
-dotnet restore
-dotnet build
-```
+    ```bash
+    dotnet restore
+    dotnet build
+    ```
 
 5. Start the application
-```bash
-cd backend
-dotnet run
-```
+    ```bash
+    cd backend
+    dotnet run
+    ```
 
 6. Navigate to `http://localhost:8081` in your browser
 
